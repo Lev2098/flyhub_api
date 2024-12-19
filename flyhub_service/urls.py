@@ -16,8 +16,34 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView
+)
+
 
 urlpatterns = [
+    #ADMIN_PANEL
     path("admin/", admin.site.urls),
+    #USER
+    path("api/user/", include("user.urls", namespace="user")),
+    #FLYNUB_MANAGER
+    path("api/flyhub/", include("flyhub_manager.urls", namespace="flyhub_manager")),
+    path("api/routes/", include("routes.urls", namespace="routes")),
+    path("api/orders/", include("orders.urls", namespace="orders")),
+    path("api/flights/", include("flights.urls", namespace="flight")),
+    #JWT
+    path(
+        'api/token/',
+        TokenObtainPairView.as_view(),
+        name='token'
+    ),
+    path(
+        'api/token/refresh/',
+        TokenRefreshView.as_view(),
+        name='token_refresh'
+    ),
+    #DEBUG_TOOL_BAR
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
