@@ -14,4 +14,8 @@ class OrderAdmin(admin.ModelAdmin):
 class TicketAdmin(admin.ModelAdmin):
     list_display = ("row", "seat", "flight", "order")
     list_filter = ("flight", "order")
-    search_fields = ("order__user__username", "flight__route__source__name", "flight__route__destination__name")
+    search_fields = (
+        "order__user__username",
+        "flight__route__source__name",
+        "flight__route__destination__name",
+    )

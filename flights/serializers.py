@@ -1,10 +1,14 @@
 from rest_framework import serializers
 
 from flights.models import Flight
+from flyhub_manager.models import Crew
 
 
 class FlightSerializer(serializers.ModelSerializer):
-    crew = serializers.StringRelatedField(many=True)
+    crew = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Crew.objects.all()
+    )
 
     class Meta:
         model = Flight

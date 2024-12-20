@@ -16,34 +16,115 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView
 )
 
 
+class ApiRootView(APIView):
+    """
+    Головна сторінка для /api/.
+    """
+    def get(self, request, *args, **kwargs):
+        return Response({
+            "user-create":
+                request.build_absolute_uri(reverse(
+                    "user:create"
+                )),
+            "user-manage":
+                request.build_absolute_uri(reverse(
+                    "user:manage"
+                )),
+            "flyhub-airplane-list":
+                request.build_absolute_uri(reverse(
+                    "flyhub_manager:airplane-list"
+                )),
+            "flyhub-airplane-type":
+                request.build_absolute_uri(reverse(
+                    "flyhub_manager:airplanetype-list"
+                )),
+            "flyhub-airports":
+                request.build_absolute_uri(reverse(
+                    "flyhub_manager:airports-list"
+                )),
+            "flyhub-crew":
+                request.build_absolute_uri(reverse(
+                    "flights:flight-list"
+                )),
+            "flights":
+                request.build_absolute_uri(reverse(
+                    "flights:flight-list"
+                )),
+            "orders-orders":
+                request.build_absolute_uri(reverse(
+                    "orders:order-list"
+                )),
+            "orders-tickets":
+                request.build_absolute_uri(reverse(
+                    "orders:ticket-list"
+                )),
+            "routes":
+                request.build_absolute_uri(reverse(
+                    "routes:route-list"
+                )),
+            "token-login":
+                request.build_absolute_uri(reverse("token")),
+            "token-refresh":
+                request.build_absolute_uri(reverse("token_refresh")),
+        })
+
+
 urlpatterns = [
-    #ADMIN_PANEL
+    # ADMIN_PANEL
     path("admin/", admin.site.urls),
-    #USER
+    # ALL API
+    path("api/", ApiRootView.as_view(), name="api-root"),
+    # USER
     path("api/user/", include("user.urls", namespace="user")),
-    #FLYNUB_MANAGER
-    path("api/flyhub/", include("flyhub_manager.urls", namespace="flyhub_manager")),
-    path("api/routes/", include("routes.urls", namespace="routes")),
-    path("api/orders/", include("orders.urls", namespace="orders")),
-    path("api/flights/", include("flights.urls", namespace="flight")),
-    #JWT
+    # FLYNUB_MANAGER
     path(
-        'api/token/',
+        "api/flyhub/",
+        include(
+            "flyhub_manager.urls",
+            namespace="flyhub_manager"
+        )
+    ),
+    path(
+        "api/routes/",
+        include(
+            "routes.urls",
+            namespace="routes"
+        )
+    ),
+    path(
+        "api/orders/",
+        include(
+            "orders.urls",
+            namespace="orders"
+        )
+    ),
+    path(
+        "api/flights/",
+        include(
+            "flights.urls",
+            namespace="flights"
+        )
+    ),
+    # JWT
+    path(
+        "api/token/",
         TokenObtainPairView.as_view(),
-        name='token'
+        name="token"
     ),
     path(
-        'api/token/refresh/',
+        "api/token/refresh/",
         TokenRefreshView.as_view(),
-        name='token_refresh'
+        name="token_refresh"
     ),
-    #DEBUG_TOOL_BAR
+    # DEBUG_TOOL_BAR
     path("__debug__/", include("debug_toolbar.urls")),
 ]

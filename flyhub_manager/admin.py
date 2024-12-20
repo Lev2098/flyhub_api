@@ -27,6 +27,9 @@ class CrewAdmin(admin.ModelAdmin):
 
 @admin.register(Airplane)
 class AirplaneAdmin(admin.ModelAdmin):
-    list_display = ("name", "rows", "seats_in_row", "airplane_type", "seats_count")
+    list_display = (
+        "name", "rows", "seats_in_row",
+        "airplane_type", "seats_count"
+    )
     search_fields = ("name", "airplane_type__name")
     list_filter = ("airplane_type",)

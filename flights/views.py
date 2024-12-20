@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
@@ -11,5 +10,5 @@ class FlightViewSet(
     mixins.ListModelMixin,
     GenericViewSet,
 ):
-    queryset = Flight.objects.all()
+    queryset = Flight.objects.all().prefetch_related("crew")
     serializer_class = FlightSerializer

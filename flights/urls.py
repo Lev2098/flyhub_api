@@ -5,7 +5,7 @@ from rest_framework import routers
 from flights.views import FlightViewSet
 
 
-app_name = "flight"
+app_name = "flights"
 
 
 router = routers.DefaultRouter()

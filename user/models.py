@@ -1,6 +1,5 @@
 from django.contrib.auth.models import (
     AbstractUser,
-    BaseUserManager,
     UserManager as DjangoUserManager
 )
 from django.db import models
@@ -40,6 +39,7 @@ class UserManager(DjangoUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     """User model"""
 
@@ -50,4 +50,3 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
-

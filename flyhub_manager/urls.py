@@ -8,6 +8,9 @@ from flyhub_manager.views import (
     CrewViewSet,
 )
 
+
+app_name = "flyhub_manager"
+
 router = routers.DefaultRouter()
 
 router.register("airports", AirportViewSet, basename="airports")
@@ -23,4 +26,3 @@ router.register("crew", CrewViewSet, basename="crew")
 urlpatterns = [
     path("", include(router.urls))
 ]
-app_name = "flyhub_manager"

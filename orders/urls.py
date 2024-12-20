@@ -11,6 +11,4 @@ router = routers.DefaultRouter()
 router.register("order", OrderViewSet, basename="order")
 router.register("ticket", TicketViewSet, basename="ticket")
 
-urlpatterns = [
-    path("", include(router.urls))
-]
+urlpatterns = [path("", include(router.urls))]
